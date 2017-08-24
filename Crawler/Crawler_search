@@ -1,0 +1,21 @@
+import requests
+from bs4 import BeautifulSoup
+def getHTMLText(url):
+    try:
+        kv = {'user-agent': 'Mozilla/5.0'}
+        word=input('请输入请查找的关键词：')
+        kv_1={'wd':word}
+        r=requests.get(url,timeout=30,headers=kv,params=kv_1)
+        print(r.request.url)
+        r.raise_for_status()#状态不是200，引发HTTPError异常
+        r.encoding=r.apparent_encoding
+        soup=BeautifulSoup(r.text,'html.parser')
+        results=[]
+        for result in soup.find_all('a'):
+            results.append(result.string)
+        return results
+    except:
+        return "产生异常"
+if __name__=="__main__":
+   url="http://www.baidu.com/s"
+   print(getHTMLText(url))
