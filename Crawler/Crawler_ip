@@ -1,0 +1,14 @@
+import requests
+from bs4 import BeautifulSoup
+try:
+    ipaddress=input('请输入需要查询的ip：')
+    kv={'ip':ipaddress}
+    url="http://m.ip138.com/ip.asp"
+    r=requests.get(url,params=kv,timeout=30)
+    r.raise_for_status()
+    r.encoding=r.apparent_encoding
+    soup=BeautifulSoup(r.text,'html.parser')
+    a=soup.find(attrs='result')
+    print(a.string.split('：')[-1])
+except:
+    print("ip检测失败")
